@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-ADD l_openvino_toolkit* /openvino/
+ADD l_openvino_toolkit* /openvino/l_openvino_toolkit
 
 ARG INSTALL_DIR=/opt/intel/computer_vision_sdk
 
@@ -18,16 +18,17 @@ RUN apt-get install -y --no-install-recommends \
         python3.5-dev \
         python3-pip \
         python3-setuptools \
+        vim \
         sudo
 
 # installing OpenVINO dependencies
-RUN cd /openvino/l_openvino_toolkit* && \
+RUN cd /openvino/l_openvino_toolkit && \
     ./install_cv_sdk_dependencies.sh
 
 RUN pip3 install numpy
 
 # installing OpenVINO itself
-RUN cd /openvino/l_openvino_toolkit* && \
+RUN cd /openvino/l_openvino_toolkit && \
     sed -i 's/decline/accept/g' silent.cfg && \
     ./install.sh --silent silent.cfg
 
